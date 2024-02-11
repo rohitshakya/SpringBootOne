@@ -16,12 +16,13 @@ public class Ratings {
     public Long getId() {
         return id;
     }
-    public Ratings(Long id, Hotel hotel, User user, Integer rating, String review) {
-        this.id = id;
+    public Ratings(Hotel hotel, User user, Integer rating, String review) {
         this.hotel = hotel;
         this.user = user;
         this.rating = rating;
         this.review = review;
+    }
+    public Ratings() {
     }
     @Override
     public String toString() {

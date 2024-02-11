@@ -4,7 +4,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myspring.firstspringproject.dao.HotelRepository;
+import com.myspring.firstspringproject.dao.RatingsRepository;
 import com.myspring.firstspringproject.entity.Hotel;
+import com.myspring.firstspringproject.entity.Ratings;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,18 @@ public class RatingController {
         @SuppressWarnings("null")
         Hotel savedHotel = hotelRepository.save(hotel);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedHotel);
+    }
+     @Autowired
+    private RatingsRepository ratingsRepository;
+
+    @PostMapping("/addRatings")
+    public Ratings addRating(@RequestBody Ratings rating) {
+        return ratingsRepository.save(rating);
+    }
+
+    @GetMapping("/ratings")
+    public Iterable<Ratings> getAllRatings() {
+        return ratingsRepository.findAll();
     }
     
    
