@@ -18,6 +18,8 @@ public class User {
         this.email = email;
         this.password = password;
     }
+    public User() {
+    }
     private String password; // hashed
     @Override
     public String toString() {
