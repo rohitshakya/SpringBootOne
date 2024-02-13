@@ -9,9 +9,9 @@ import com.myspring.firstspringproject.dao.UserRepository;
 import com.myspring.firstspringproject.entity.Hotel;
 import com.myspring.firstspringproject.entity.Ratings;
 import com.myspring.firstspringproject.entity.User;
+import com.myspring.firstspringproject.service.RatingService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,6 +74,7 @@ public class RatingController {
     }
 
     // Update a user
+    @SuppressWarnings("null")
     @PutMapping("/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User user) {
         if (userRepository.existsById(userId)) {
@@ -86,6 +87,7 @@ public class RatingController {
     }
 
     // Delete a user
+    @SuppressWarnings("null")
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         if (userRepository.existsById(userId)) {
@@ -95,6 +97,14 @@ public class RatingController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @Autowired
+    RatingService ratingService;
+
+     @GetMapping("/average/{hotel}")
+     public ResponseEntity<Double> getAverageRating(@PathVariable Long hotel) {
+        return new ResponseEntity<>( ratingService.calculateAverageRating(hotel), HttpStatus.OK);
+     }
     
    
 }
