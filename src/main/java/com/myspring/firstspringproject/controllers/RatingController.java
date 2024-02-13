@@ -11,6 +11,8 @@ import com.myspring.firstspringproject.entity.Ratings;
 import com.myspring.firstspringproject.entity.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @ResponseBody
 @RestController
@@ -30,8 +33,9 @@ public class RatingController {
     private HotelRepository hotelRepository;
     
     @GetMapping("/hotels")
-    public Iterable<Hotel> getAllHotels() {
-        return hotelRepository.findAllByOrderByIdDesc();
+    public Iterable<Hotel> getAllHotels(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        return hotelRepository.findAll(pageable).getContent();
     }
      @PostMapping("/addHotels")
     public ResponseEntity<Hotel> addHotel(@RequestBody Hotel hotel) {
@@ -48,8 +52,9 @@ public class RatingController {
     }
 
     @GetMapping("/ratings")
-    public Iterable<Ratings> getAllRatings() {
-        return ratingsRepository.findAll();
+    public Iterable<Ratings> getAllRatings(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        return ratingsRepository.findAll(pageable).getContent();
     }
      @Autowired
     private UserRepository userRepository;
@@ -63,8 +68,9 @@ public class RatingController {
 
     // Retrieve all users
     @GetMapping("/users")
-    public Iterable<User> getAllUsers() {
-        return userRepository.findAllByOrderByIdDesc();
+    public Iterable<User> getAllUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        return userRepository.findAll(pageable).getContent();
     }
 
     // Update a user
